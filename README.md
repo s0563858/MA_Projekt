@@ -12,6 +12,7 @@ git branch                 #überprüfen ob man im richtigen branch ist
 
 
 
+
 um das spiel zu starten:
 
 
