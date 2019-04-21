@@ -1,22 +1,22 @@
-# MA_Projekt
+# Project: Mobile Applications SS2019
+> Flappy Bird in Java with multiplayer mode
 
+## Installation
 
+How to get to the branch (basic_game):
 
-Um an den branch basic_game ranzukommen:
+```sh
+git checkout basic_game #Changes the branch
+git branch #Checks if it's the correct branch
+```
 
+## Usage example
 
-git checkout basic_game    #branch wechseln
+Before compiling and running the game choose "desktop" (instead of "android" in the configurator at the top right bar in Android Studio. After that run the game by clicking on the play button next to it. Hint: Game will restart automatically if you die (currently).
 
+## Roadmap
 
-git branch                 #überprüfen ob man im richtigen branch ist
-
-
-
-
-um das spiel zu starten:
-
-
-vor dem start - oben, neben dem play button "desktop" statt "android" auswählen und auf das play zeichen klicken
-
-
--wenn man im spiel stirbt - dann wird das spiel neugestartet
+- [ ] Basic game
+- [x] Persistence
+- [ ] Networking
+- [ ] Polishing
