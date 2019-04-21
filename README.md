@@ -4,7 +4,10 @@
 
 Um an den branch basic_game ranzukommen:
 
+
 git checkout basic_game    #branch wechseln
+
+
 git branch                 #überprüfen ob man im richtigen branch ist
 
 
