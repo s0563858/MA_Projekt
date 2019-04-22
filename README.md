@@ -21,7 +21,7 @@ For the development we use libgdx - a framework which allows us to develop multi
 In the project folder: 
 
 - android folder - contains basically one class which just starts the business logic of the game, which is located in the core folder
-- core folder - contains all classes of the game. SuperBirdsMain - the main class of the game. State package contains all states of the game like - the menuState which is activated at start of the game - or the playState which is activated if user clicked on the play button of the game.
+- core folder - contains all classes of the game. SuperBirdsMain - the main class of the game. State package contains all state-classes of the game like - the menuState which is activated at start of the game - or the playState which is activated if user clicked on the play button in the menuState.
   The gameObjects package contains all classes which are responsible for the behaviour of some objects in the game (e.g. birdController, pipeController)
 
 
