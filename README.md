@@ -27,7 +27,7 @@ In the project folder:
 
 ## Roadmap
 
-- [ ] Basic game
+- [x] Basic game
 - [x] Persistence
 - [ ] Networking
 - [ ] Polishing
