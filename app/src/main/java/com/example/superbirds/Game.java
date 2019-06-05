@@ -99,7 +99,21 @@ public class Game extends Thread {
     }
 
 
-
+    private void network(){
+        //--------------Network--------------
+        if(c==null || netObj == null || netObj.done){
+            Log.i("network","- New async network task");
+            netObj = new NetworkObject();
+            netObj.done=false;
+            netObj.currentPlayersID=networkID;
+            netObj.currentPlayersPosY=bird.getY();
+            netObj.currentPlayersPipe1Pos = getGameobjectPositionX( "pipe1");
+            netObj.currentPlayersPipe2Pos = getGameobjectPositionX( "pipe2");
+            c=new ClientGame();
+            c.execute(netObj);
+        }
+        //--------------Network--------------
+    }
 
 
 
@@ -112,28 +126,11 @@ public class Game extends Thread {
         }
 
         while(gameActivated) {
-
             movingObjects();
             detectCollisions();
-
-            //--------------Network--------------
-            if(c==null || netObj == null || netObj.done){
-                Log.i("network","- New async network task");
-                netObj = new NetworkObject();
-                netObj.done=false;
-                netObj.currentPlayersID=networkID;
-                netObj.currentPlayersPosY=bird.getY();
-                netObj.currentPlayersPipe1Pos = getGameobjectPositionX( "pipe1");
-                netObj.currentPlayersPipe2Pos = getGameobjectPositionX( "pipe2");
-                c=new ClientGame();
-                c.execute(netObj);
-            }
-            //--------------Network--------------
-
+            network();
         }
-
         saveScore();
-
     }
 
 

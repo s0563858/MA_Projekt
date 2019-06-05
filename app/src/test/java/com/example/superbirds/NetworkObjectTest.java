@@ -2,6 +2,9 @@ package com.example.superbirds;
 
 import org.junit.Test;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+
 import static org.junit.Assert.*;
 
 public class NetworkObjectTest {
@@ -10,6 +13,32 @@ public class NetworkObjectTest {
     public void instantiate() {
         NetworkObject no = new NetworkObject();
         assertNotNull(no);
+    }
+
+
+
+    @Test
+    public void getConnectionTest() throws IOException {
+        NetworkObject no = new NetworkObject();
+        no.currentPlayersPipe2Pos=1;
+        no.currentPlayersPipe1Pos=2;
+        no.currentPlayersID=33;
+        no.currentPlayersPosY=12;
+        no.done=false;
+        no.pipe2PosX=10;
+        no.pipe1PosX=20;
+
+        HttpURLConnection h = no.getConnection();
+        assertTrue(h.getURL().toString().equals ("https://heartbleed.de/app?getID=0&restart=0&posY=12.0&id=33&pipe1=2.0&pipe2=1.0"));
+    }
+
+    @Test
+    public void getConnectionWithoutValuesTest() throws IOException {
+        NetworkObject no = new NetworkObject();
+
+        HttpURLConnection h = no.getConnection();
+        System.out.println(h.getURL());
+        assertTrue(h.getURL().toString().equals ("https://heartbleed.de/app?getID=0&restart=0&posY=0.0&id=0&pipe1=0.0&pipe2=0.0"));
     }
 
     @Test
