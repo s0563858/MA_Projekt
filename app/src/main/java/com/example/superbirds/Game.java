@@ -1,5 +1,6 @@
 package com.example.superbirds;
 
+import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,8 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class Game extends Thread {
 
@@ -63,7 +66,7 @@ public class Game extends Thread {
         lastTime = time;
         bird.setNewPosition(bird.getX(),bird.getY() + 0.02f*delta_time);
         drawGameobject(bird);
-        if((netObj!=null && netObj.done) || (networkID==2 && netObj!=null && !netObj.done && firstPacketFetched) ){
+        if((netObj!=null && netObj.done)){ //|| (networkID==2 && netObj!=null && !netObj.done && firstPacketFetched) ){
             Log.i("network","- y: "+netObj.otherPlayersPosY);
             otherPlayer.setNewPosition(bird.getX(),netObj.otherPlayersPosY);
             drawGameobject(otherPlayer);
@@ -169,25 +172,30 @@ public class Game extends Thread {
 
     public  void saveScore() {
         if(main==null){return;}
+        Message msg = main.handler.obtainMessage(1,score);
+        main.handler.sendMessage(msg);
 
-        main.runOnUiThread(new Runnable() {
+       /* main.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 main.saveNewScore(score);
             }
-        });
+        });*/
     }
 
 
     public  void incrementScore(){
         score++;
         if(main==null){return;}
-        main.runOnUiThread(new Runnable() {
+        Message msg = main.handler.obtainMessage(0,score);
+        main.handler.sendMessage(msg);
+
+        /*main.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 main.setNewScore(score);
             }
-        });
+        });*/
     }
 
 
@@ -208,16 +216,20 @@ public class Game extends Thread {
 
     private void drawGameobject(GameObject g){
          final GameObject a = g;
+
         if(g== null || g.getImage() == null){ return;}
         if(main==null){return;}
-        main.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ImageView image  = a.getImage();
-                image.setY(a.getY());
-                image.setX(a.getX());
-            }
-        });
+
+        Message msg = main.handler.obtainMessage(2,g);
+        main.handler.sendMessage(msg);
+      //  main.runOnUiThread(new Runnable() {
+      //      @Override
+       //     public void run() {
+         //       ImageView image  = a.getImage();
+         //       image.setY(a.getY());
+          //      image.setX(a.getX());
+        //    }
+       // });
 
     }
 
@@ -226,40 +238,37 @@ public class Game extends Thread {
 
         if(domain == null || bird == null || movingObjects == null  || main == null || cd == null){return -1;}
 
-        HttpURLConnection connection;
+        HttpsURLConnection connection;
         PrintWriter out;
         BufferedReader in;
         String line;
         Log.i("network","[Client] Connecting to Server...");
         URL addr = new URL("https://"+domain+"/app?getID=1&restart=0" );
         System.out.println(addr);
-        connection = (HttpURLConnection) addr.openConnection();
+        connection = (HttpsURLConnection) addr.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
         connection.setUseCaches(false);
         connection.setDoOutput(true);
 
-        out = new PrintWriter(connection.getOutputStream());
         in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
         line = in.readLine();
         in.close();
 
+
         Log.i("network","[Client] Received ID[" + line + "] from Server");
         if(line.contains("slots")){//restarting the server if the server is full
             addr = new URL("https://"+domain+"/app?getID=0&restart=1" );
-            connection = (HttpURLConnection) addr.openConnection();
+            connection = (HttpsURLConnection) addr.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
             connection.setUseCaches(false);
             connection.setDoOutput(true);
-
-            out = new PrintWriter(connection.getOutputStream());
             in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-            line = in.readLine();
             in.close();
             return getIDfromServer();
         }

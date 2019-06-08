@@ -1,6 +1,8 @@
 package com.example.superbirds;
 
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     TextView score;
 
     Game currentGame;
+
+    public Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,23 @@ public class MainActivity extends AppCompatActivity {
         pipes.add(scoreElement2);
 
 
+        handler = new Handler() {
+            @Override public void handleMessage(Message msg) {
+                if(msg.what==0){// 0 -> score incremented
+                    setNewScore((int)msg.obj);
+                }
+                if(msg.what==1){// 1 -> save the score
+                    saveNewScore((int)msg.obj);
+                }
+                if(msg.what==2){// 2 -> draw the object
+                    ImageView image  = ((GameObject) msg.obj).getImage();
+                    image.setY(((GameObject) msg.obj).getY());
+                    image.setX(((GameObject) msg.obj).getX());
+                }
+                //System.out.println(msg.what);
+            }
+        };
+
 
          currentGame = new Game(bird,otherPlayer,pipes,this);
 
@@ -76,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 currentGame.FlyButtonClicked();
             }
         });
+
 
 
 

@@ -6,6 +6,8 @@ import android.util.Log;
 import java.io.*;
 import java.net.*;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class ClientGame extends AsyncTask<NetworkObject, Integer, NetworkObject> {
     private static int playerYPos = 0;
 
@@ -44,7 +46,7 @@ public class ClientGame extends AsyncTask<NetworkObject, Integer, NetworkObject>
 
     public  void communicateWithServer() throws IOException {
         if(netObj==null){return;}
-        HttpURLConnection connection = netObj.getConnection();
+        HttpsURLConnection connection = netObj.getConnection();
         PrintWriter out;
         BufferedReader in;
         String line;
@@ -58,8 +60,7 @@ public class ClientGame extends AsyncTask<NetworkObject, Integer, NetworkObject>
 
 
        // out.println(player + "," + netObj.currentPlayersID);
-        //out.flush();
-        //out.close();
+
         System.out.println(line);
 
 

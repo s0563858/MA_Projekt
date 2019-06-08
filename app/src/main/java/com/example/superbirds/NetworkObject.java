@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class NetworkObject {
     public float otherPlayersPosY;
     public float pipe1PosX;
@@ -19,10 +21,10 @@ public class NetworkObject {
 
     private String domain="heartbleed.de";
 
-    public HttpURLConnection getConnection() throws IOException {
+    public HttpsURLConnection getConnection() throws IOException {
         URL addr = new URL("https://"+domain+"/app?getID=0&restart=0" +"&posY=" +this.currentPlayersPosY + "&id=" + this.currentPlayersID + "&pipe1="+this.currentPlayersPipe1Pos+ "&pipe2="+this.currentPlayersPipe2Pos);
         System.out.println(addr);
-        HttpURLConnection connection = (HttpURLConnection) addr.openConnection();
+        HttpsURLConnection connection = (HttpsURLConnection) addr.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 

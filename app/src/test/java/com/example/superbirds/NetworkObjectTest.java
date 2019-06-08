@@ -5,6 +5,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import static org.junit.Assert.*;
 
 public class NetworkObjectTest {
@@ -28,7 +30,7 @@ public class NetworkObjectTest {
         no.pipe2PosX=10;
         no.pipe1PosX=20;
 
-        HttpURLConnection h = no.getConnection();
+        HttpsURLConnection h = no.getConnection();
         assertTrue(h.getURL().toString().equals ("https://heartbleed.de/app?getID=0&restart=0&posY=12.0&id=33&pipe1=2.0&pipe2=1.0"));
     }
 
@@ -36,7 +38,7 @@ public class NetworkObjectTest {
     public void getConnectionWithoutValuesTest() throws IOException {
         NetworkObject no = new NetworkObject();
 
-        HttpURLConnection h = no.getConnection();
+        HttpsURLConnection h = no.getConnection();
         System.out.println(h.getURL());
         assertTrue(h.getURL().toString().equals ("https://heartbleed.de/app?getID=0&restart=0&posY=0.0&id=0&pipe1=0.0&pipe2=0.0"));
     }
