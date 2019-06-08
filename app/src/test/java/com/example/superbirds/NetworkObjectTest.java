@@ -3,7 +3,6 @@ package com.example.superbirds;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -13,7 +12,7 @@ public class NetworkObjectTest {
 
     @Test
     public void instantiate() {
-        NetworkObject no = new NetworkObject();
+        NetworkObjectPosition no = new NetworkObjectPosition();
         assertNotNull(no);
     }
 
@@ -21,7 +20,7 @@ public class NetworkObjectTest {
 
     @Test
     public void getConnectionTest() throws IOException {
-        NetworkObject no = new NetworkObject();
+        NetworkObjectPosition no = new NetworkObjectPosition();
         no.currentPlayersPipe2Pos=1;
         no.currentPlayersPipe1Pos=2;
         no.currentPlayersID=33;
@@ -36,7 +35,7 @@ public class NetworkObjectTest {
 
     @Test
     public void getConnectionWithoutValuesTest() throws IOException {
-        NetworkObject no = new NetworkObject();
+        NetworkObjectPosition no = new NetworkObjectPosition();
 
         HttpsURLConnection h = no.getConnection();
         System.out.println(h.getURL());
@@ -45,7 +44,7 @@ public class NetworkObjectTest {
 
     @Test
     public void valuesTest() {
-        NetworkObject no = new NetworkObject();
+        NetworkObjectPosition no = new NetworkObjectPosition();
         no.currentPlayersPipe2Pos=1;
         no.currentPlayersPipe1Pos=2;
         no.currentPlayersID=33;

@@ -2,14 +2,11 @@ package com.example.superbirds;
 
 import android.os.Message;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class Game extends Thread {
     List<GameObject> movingObjects;
     int networkID;
     private String domain="heartbleed.de";
-    NetworkObject netObj;
+    INetworkObject netObj;
     GameObject otherPlayer;
 
 
@@ -50,12 +47,17 @@ public class Game extends Thread {
         firstPacketFetched=false;
         gameActivated = true;
         lastTime = System.nanoTime();
-        try {
-            networkID=getIDfromServer();
-        } catch (IOException e) {
-            networkID=-1;
-            e.printStackTrace();
-        }
+        //try {
+            //networkID=getIDfromServer();
+        networkID=-2;
+        netObj = new NetworkObjectGetID(1,0);
+        c = new ClientGame();
+        c.execute(netObj);
+         //   networkID=-1;
+        //} catch (IOException e) {
+        //networkID=-1;
+          //  e.printStackTrace();
+        //}
     }
 
 
@@ -66,13 +68,13 @@ public class Game extends Thread {
         lastTime = time;
         bird.setNewPosition(bird.getX(),bird.getY() + 0.02f*delta_time);
         drawGameobject(bird);
-        if((netObj!=null && netObj.done)){ //|| (networkID==2 && netObj!=null && !netObj.done && firstPacketFetched) ){
-            Log.i("network","- y: "+netObj.otherPlayersPosY);
-            otherPlayer.setNewPosition(bird.getX(),netObj.otherPlayersPosY);
+        if((netObj!=null && ((NetworkObjectPosition)netObj).done)){ //|| (networkID==2 && netObj!=null && !netObj.done && firstPacketFetched) ){
+            Log.i("network","- y: "+((NetworkObjectPosition)netObj).otherPlayersPosY);
+            otherPlayer.setNewPosition(bird.getX(),((NetworkObjectPosition)netObj).otherPlayersPosY);
             drawGameobject(otherPlayer);
         }
 
-        if(networkID==-1 || networkID==1 || (networkID==2 && netObj!=null && !netObj.done && firstPacketFetched)){//wenn spieler der server ist oder es keinen freien platz gibt
+        if(networkID==-1 || networkID==1 || (networkID==2 && netObj!=null && !((NetworkObjectPosition)netObj).done && firstPacketFetched)){//wenn spieler der server ist oder es keinen freien platz gibt
             for(GameObject obj : movingObjects) {
                 obj.setNewPosition(obj.getX() - 0.02f*delta_time, obj.getY() );
                 if(obj.getX() < -50){
@@ -82,21 +84,21 @@ public class Game extends Thread {
             }
 
         }
-        if(networkID==2 && netObj!=null && netObj.done && netObj.pipe1PosX!=netObj.pipe2PosX){//wenn der spiler die client-rolle hat
+        if(networkID==2 && netObj!=null && ((NetworkObjectPosition)netObj).done && ((NetworkObjectPosition)netObj).pipe1PosX!=((NetworkObjectPosition)netObj).pipe2PosX){//wenn der spiler die client-rolle hat
             firstPacketFetched=true;
             for(GameObject obj : movingObjects) {
                 if(obj.getName().equals("pipe1")){
-                    obj.setNewPosition(netObj.pipe1PosX, obj.getY() );
+                    obj.setNewPosition(((NetworkObjectPosition)netObj).pipe1PosX, obj.getY() );
                 }
                 if(obj.getName().equals("pipe2")){
-                    obj.setNewPosition(netObj.pipe2PosX, obj.getY() );
+                    obj.setNewPosition(((NetworkObjectPosition)netObj).pipe2PosX, obj.getY() );
                 }
-                if(obj.getName().equals("score1")){obj.setNewPosition(netObj.pipe1PosX, obj.getY() );}
-                if(obj.getName().equals("score2")){obj.setNewPosition(netObj.pipe2PosX, obj.getY() );}
+                if(obj.getName().equals("score1")){obj.setNewPosition(((NetworkObjectPosition)netObj).pipe1PosX, obj.getY() );}
+                if(obj.getName().equals("score2")){obj.setNewPosition(((NetworkObjectPosition)netObj).pipe2PosX, obj.getY() );}
                 drawGameobject(obj);
             }
-            Log.i("network","- y: "+netObj.otherPlayersPosY);
-            otherPlayer.setNewPosition(bird.getX(),netObj.otherPlayersPosY);
+            Log.i("network","- y: "+((NetworkObjectPosition)netObj).otherPlayersPosY);
+            otherPlayer.setNewPosition(bird.getX(),((NetworkObjectPosition)netObj).otherPlayersPosY);
             drawGameobject(otherPlayer);
         }
     }
@@ -104,14 +106,14 @@ public class Game extends Thread {
 
     private void network(){
         //--------------Network--------------
-        if(c==null || netObj == null || netObj.done){
+        if(c==null || netObj == null || ((NetworkObjectPosition)netObj).done){
             Log.i("network","- New async network task");
-            netObj = new NetworkObject();
-            netObj.done=false;
-            netObj.currentPlayersID=networkID;
-            netObj.currentPlayersPosY=bird.getY();
-            netObj.currentPlayersPipe1Pos = getGameobjectPositionX( "pipe1");
-            netObj.currentPlayersPipe2Pos = getGameobjectPositionX( "pipe2");
+            netObj = new NetworkObjectPosition();
+            ((NetworkObjectPosition)netObj).done=false;
+            ((NetworkObjectPosition)netObj).currentPlayersID=networkID;
+            ((NetworkObjectPosition)netObj).currentPlayersPosY=bird.getY();
+            ((NetworkObjectPosition)netObj).currentPlayersPipe1Pos = getGameobjectPositionX( "pipe1");
+            ((NetworkObjectPosition)netObj).currentPlayersPipe2Pos = getGameobjectPositionX( "pipe2");
             c=new ClientGame();
             c.execute(netObj);
         }
@@ -129,6 +131,10 @@ public class Game extends Thread {
         }
 
         while(gameActivated) {
+            if(netObj.getClass()==NetworkObjectGetID.class){//getting the id asynchronously
+                if(((NetworkObjectGetID)netObj).done){networkID=((NetworkObjectGetID)netObj).id; netObj=null; }
+                else {continue;}
+            }
             movingObjects();
             detectCollisions();
             network();

@@ -3,10 +3,8 @@ package com.example.superbirds;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 
 import static org.junit.Assert.*;
@@ -25,7 +23,7 @@ public class ClientGameTest {
     @Test
     public void communicateWithServer() throws IOException {
         ClientGame c=new ClientGame();
-        NetworkObject no = mock(NetworkObject.class);
+        NetworkObjectPosition no = mock(NetworkObjectPosition.class);
         HttpURLConnection h = mock(HttpURLConnection.class);
         c.netObj=no;
         byte[] test = "1,0,0".getBytes();
@@ -40,7 +38,7 @@ public class ClientGameTest {
     @Test
     public void communicateWithServerEmptyAnswer() throws IOException {
         ClientGame c=new ClientGame();
-        NetworkObject no = mock(NetworkObject.class);
+        NetworkObjectPosition no = mock(NetworkObjectPosition.class);
         HttpURLConnection h = mock(HttpURLConnection.class);
         c.netObj=no;
         byte[] test = "".getBytes();
@@ -54,7 +52,7 @@ public class ClientGameTest {
     @Test
     public void communicateWithServerBadAnswer() throws IOException {
         ClientGame c=new ClientGame();
-        NetworkObject no = mock(NetworkObject.class);
+        NetworkObjectPosition no = mock(NetworkObjectPosition.class);
         HttpURLConnection h = mock(HttpURLConnection.class);
         c.netObj=no;
         byte[] test = "dwdwdwd".getBytes();
@@ -68,7 +66,7 @@ public class ClientGameTest {
     @Test
     public void communicateWithServerBadFormatAnswer() throws IOException {
         ClientGame c=new ClientGame();
-        NetworkObject no = mock(NetworkObject.class);
+        NetworkObjectPosition no = mock(NetworkObjectPosition.class);
         HttpURLConnection h = mock(HttpURLConnection.class);
         c.netObj=no;
         byte[] test = "1,1".getBytes();
@@ -82,7 +80,7 @@ public class ClientGameTest {
     @Test
     public void communicateWithServerNetObjNull() throws IOException {
         ClientGame c=new ClientGame();
-        NetworkObject no = mock(NetworkObject.class);
+        NetworkObjectPosition no = mock(NetworkObjectPosition.class);
         HttpURLConnection h = mock(HttpURLConnection.class);
         c.netObj=null;
         assertTrue(c.doInBackground(null)==null);

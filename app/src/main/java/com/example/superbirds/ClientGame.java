@@ -4,14 +4,14 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.*;
-import java.net.*;
+import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class ClientGame extends AsyncTask<NetworkObject, Integer, NetworkObject> {
+public class ClientGame extends AsyncTask<INetworkObject, Integer, INetworkObject> {
     private static int playerYPos = 0;
 
-    NetworkObject netObj;
+    INetworkObject netObj;
 
 
 
@@ -21,12 +21,18 @@ public class ClientGame extends AsyncTask<NetworkObject, Integer, NetworkObject>
 
     }
     @Override
-    protected NetworkObject doInBackground(NetworkObject... params) {
+    protected INetworkObject doInBackground(INetworkObject... params) {
         // Runs in background thread
         if(params==null){return null;}
         netObj = params[0];
         try {
-            communicateWithServer();
+            if(netObj.getClass()==NetworkObjectPosition.class){
+                communicateWithServer((NetworkObjectPosition) netObj);
+            }
+            if(netObj.getClass()==NetworkObjectGetID.class){
+                communicateWithServer((NetworkObjectGetID) netObj);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,14 +45,48 @@ public class ClientGame extends AsyncTask<NetworkObject, Integer, NetworkObject>
     }
 
     @Override
-    protected void onPostExecute(NetworkObject resp) {
-        netObj.done=true;
+    protected void onPostExecute(INetworkObject resp) {
+        if(netObj.getClass()==NetworkObjectPosition.class){
+            ((NetworkObjectPosition) netObj).done=true;
+        }
+        if(netObj.getClass()==NetworkObjectGetID.class){
+            ((NetworkObjectGetID) netObj).done=true;
+        }
+    }
+
+    public  void communicateWithServer(NetworkObjectGetID n) throws IOException {
+        if(netObj==null){return;}
+        HttpsURLConnection connection = netObj.getConnection();
+        PrintWriter out;
+        BufferedReader in;
+        String line;
+        Log.i("network","[Client] Connecting to Server...");
+
+
+        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        line = in.readLine();
+        in.close();
+
+
+        Log.i("network","[Client] Received ID[" + line + "] from Server");
+        if(line.contains("slots")){//restarting the server if the server is full
+            INetworkObject netO = new NetworkObjectGetID(0,1);// -> will restart the server
+            connection=netO.getConnection();
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            in.close();
+            communicateWithServer(n);//after the restart request was sent -> try to get the id again
+        }else{
+            if(!line.contains("restarting")){((NetworkObjectGetID) netObj).id = Integer.valueOf(line);}
+        }
+
+
     }
 
 
-    public  void communicateWithServer() throws IOException {
+    public  void communicateWithServer(NetworkObjectPosition n) throws IOException {
         if(netObj==null){return;}
-        HttpsURLConnection connection = netObj.getConnection();
+        HttpsURLConnection connection = n.getConnection();
         PrintWriter out;
         BufferedReader in;
         String line;
@@ -61,22 +101,24 @@ public class ClientGame extends AsyncTask<NetworkObject, Integer, NetworkObject>
 
        // out.println(player + "," + netObj.currentPlayersID);
 
-        System.out.println(line);
 
 
 
 
-        if(line==null || line=="" ){netObj.otherPlayersPosY=-1000;}
-        else{
+        if(line==null || line=="" ){
+            n.otherPlayersPosY=-400;
+            n.pipe1PosX=-400;
+            n.pipe2PosX=-400;
+        } else{
             String[] numbers = line.split(",");
-            if(numbers.length!=3){netObj.otherPlayersPosY=-1000;}
+            if(numbers.length!=3){n.otherPlayersPosY=-400;}
             else {
-                netObj.otherPlayersPosY=Float.parseFloat(numbers[0]);
-                netObj.pipe1PosX=Float.parseFloat(numbers[1]);
-                netObj.pipe2PosX=Float.parseFloat(numbers[2]);
+                n.otherPlayersPosY=Float.parseFloat(numbers[0]);
+                n.pipe1PosX=Float.parseFloat(numbers[1]);
+                n.pipe2PosX=Float.parseFloat(numbers[2]);
             }
         }
-        Log.i("network","[Client] anderer user: " + netObj.otherPlayersPosY+" : "+line);
+        Log.i("network","[Client] anderer user: " + n.otherPlayersPosY+" : "+line);
 
     }
 

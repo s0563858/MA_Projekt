@@ -8,21 +8,23 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class NetworkObject {
-    public float otherPlayersPosY;
-    public float pipe1PosX;
-    public float pipe2PosX;
-
-    public int currentPlayersID;
-    public float currentPlayersPosY;
-    public float currentPlayersPipe1Pos;
-    public float currentPlayersPipe2Pos;
+public class NetworkObjectGetID implements INetworkObject {
+    public int id;
     public boolean done;
+    private int getID;
+    private int restart;
+
+    public NetworkObjectGetID(int getIDt, int restartt){
+        this.getID=getIDt;
+        this.restart=restartt;
+    }
+
 
     private String domain="heartbleed.de";
 
     public HttpsURLConnection getConnection() throws IOException {
-        URL addr = new URL("https://"+domain+"/app?getID=0&restart=0" +"&posY=" +this.currentPlayersPosY + "&id=" + this.currentPlayersID + "&pipe1="+this.currentPlayersPipe1Pos+ "&pipe2="+this.currentPlayersPipe2Pos);
+        if((restart!=0&&restart!=1) || (getID!=0&&getID!=1)){return null;}
+        URL addr = new URL("https://"+domain+"/app?getID="+getID+"&restart="+restart);
         System.out.println(addr);
         HttpsURLConnection connection = (HttpsURLConnection) addr.openConnection();
         connection.setRequestMethod("GET");
