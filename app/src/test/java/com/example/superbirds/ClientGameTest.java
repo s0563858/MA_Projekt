@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -24,14 +26,43 @@ public class ClientGameTest {
     public void communicateWithServer() throws IOException {
         ClientGame c=new ClientGame();
         NetworkObjectPosition no = mock(NetworkObjectPosition.class);
-        HttpURLConnection h = mock(HttpURLConnection.class);
+        HttpsURLConnection h = mock(HttpsURLConnection.class);
         c.netObj=no;
         byte[] test = "1,0,0".getBytes();
         InputStream is = new ByteArrayInputStream(test);
         when(h.getInputStream()).thenReturn(is);
         when(no.getConnection()).thenReturn(h);
-        c.communicateWithServer();
-        assertTrue(c.netObj.otherPlayersPosY==1);
+        c.communicateWithServer(no);
+        assertTrue(((NetworkObjectPosition)c.netObj).otherPlayersPosY==1);
+    }
+
+    @Test
+    public void getIDfromServerTest() throws IOException{
+        ClientGame c=new ClientGame();
+        NetworkObjectGetID no = mock(NetworkObjectGetID.class);
+        HttpsURLConnection h = mock(HttpsURLConnection.class);
+        c.netObj=no;
+        byte[] test = "1".getBytes();
+        InputStream is = new ByteArrayInputStream(test);
+        when(h.getInputStream()).thenReturn(is);
+        when(no.getConnection()).thenReturn(h);
+        c.communicateWithServer(no);
+        assertTrue(((NetworkObjectGetID)c.netObj).id==1);
+    }
+
+
+    @Test
+    public void getIDfromServerEmptyAnswerTest() throws IOException{
+        ClientGame c=new ClientGame();
+        NetworkObjectGetID no = mock(NetworkObjectGetID.class);
+        HttpsURLConnection h = mock(HttpsURLConnection.class);
+        c.netObj=no;
+        byte[] test = "".getBytes();
+        InputStream is = new ByteArrayInputStream(test);
+        when(h.getInputStream()).thenReturn(is);
+        when(no.getConnection()).thenReturn(h);
+        c.communicateWithServer(no);
+        assertTrue(((NetworkObjectGetID)c.netObj).id==-1);
     }
 
 
@@ -39,42 +70,42 @@ public class ClientGameTest {
     public void communicateWithServerEmptyAnswer() throws IOException {
         ClientGame c=new ClientGame();
         NetworkObjectPosition no = mock(NetworkObjectPosition.class);
-        HttpURLConnection h = mock(HttpURLConnection.class);
+        HttpsURLConnection h = mock(HttpsURLConnection.class);
         c.netObj=no;
         byte[] test = "".getBytes();
         InputStream is = new ByteArrayInputStream(test);
         when(h.getInputStream()).thenReturn(is);
         when(no.getConnection()).thenReturn(h);
-        c.communicateWithServer();
-        assertTrue(c.netObj.otherPlayersPosY==-1000);
+        c.communicateWithServer(no);
+        assertTrue(((NetworkObjectPosition)c.netObj).otherPlayersPosY==-400);
     }
 
     @Test
     public void communicateWithServerBadAnswer() throws IOException {
         ClientGame c=new ClientGame();
         NetworkObjectPosition no = mock(NetworkObjectPosition.class);
-        HttpURLConnection h = mock(HttpURLConnection.class);
+        HttpsURLConnection h = mock(HttpsURLConnection.class);
         c.netObj=no;
         byte[] test = "dwdwdwd".getBytes();
         InputStream is = new ByteArrayInputStream(test);
         when(h.getInputStream()).thenReturn(is);
         when(no.getConnection()).thenReturn(h);
-        c.communicateWithServer();
-        assertTrue(c.netObj.otherPlayersPosY==-1000);
+        c.communicateWithServer(no);
+        assertTrue(((NetworkObjectPosition)c.netObj).otherPlayersPosY==-400);
     }
 
     @Test
     public void communicateWithServerBadFormatAnswer() throws IOException {
         ClientGame c=new ClientGame();
         NetworkObjectPosition no = mock(NetworkObjectPosition.class);
-        HttpURLConnection h = mock(HttpURLConnection.class);
+        HttpsURLConnection h = mock(HttpsURLConnection.class);
         c.netObj=no;
         byte[] test = "1,1".getBytes();
         InputStream is = new ByteArrayInputStream(test);
         when(h.getInputStream()).thenReturn(is);
         when(no.getConnection()).thenReturn(h);
-        c.communicateWithServer();
-        assertTrue(c.netObj.otherPlayersPosY==-1000);
+        c.communicateWithServer(no);
+        assertTrue(((NetworkObjectPosition)c.netObj).otherPlayersPosY==-400);
     }
 
     @Test

@@ -5,5 +5,7 @@ import java.io.IOException;
 import javax.net.ssl.HttpsURLConnection;
 
 public interface INetworkObject {
-    public HttpsURLConnection getConnection() throws IOException;
+    HttpsURLConnection getConnection() throws IOException;
+    boolean getDone();
+    void setDone(boolean d);
 }

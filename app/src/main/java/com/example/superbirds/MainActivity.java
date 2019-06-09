@@ -100,35 +100,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-        runInBackground();
-
-
-
-
-
-    }
-
-
-    public void runInBackground() {
-
         currentGame.start();
 
 
-/*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (currentGame.gameActivated){
-
-                currentGame.run();
-
-                }
-
-            }
-        }).start();*/
     }
+
 
 
     public void saveNewScore(int scr){
@@ -141,11 +117,6 @@ public class MainActivity extends AppCompatActivity {
         if(memento==null||score==null){return;}
         score.setText("Score: "+String.valueOf(scr));
     }
-
-
-
-
-
 
 
 

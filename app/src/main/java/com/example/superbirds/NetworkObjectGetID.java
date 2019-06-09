@@ -10,7 +10,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkObjectGetID implements INetworkObject {
     public int id;
-    public boolean done;
+    private boolean done;
     private int getID;
     private int restart;
 
@@ -19,6 +19,15 @@ public class NetworkObjectGetID implements INetworkObject {
         this.restart=restartt;
     }
 
+    @Override
+    public boolean getDone() {
+        return done;
+    }
+
+    @Override
+    public void setDone(boolean d) {
+        done=d;
+    }
 
     private String domain="heartbleed.de";
 

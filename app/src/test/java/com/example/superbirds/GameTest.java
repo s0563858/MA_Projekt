@@ -1,5 +1,9 @@
 package com.example.superbirds;
 
+import android.os.Handler;
+import android.os.Message;
+import android.widget.ImageView;
+
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
@@ -20,22 +24,18 @@ public class GameTest {
         assertNotNull(g);
     }
 
-    @Test
-    public void getIDfromServerTest() {
-        Game g = new Game(null,null,null,null);
-        try {
-            assertTrue(g.getIDfromServer()==-1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     @Test
     public void saveScoreTest() {
-        MainActivity main = mock(MainActivity.class);
+        MainActivity  main = mock(MainActivity.class);
+
+        main.handler = mock(Handler.class);
         Game g = new Game(null,null,null,main);
+        int counter = 0;
+
         g.saveScore();
-        verify(main,times(2)).runOnUiThread(ArgumentMatchers.any(Runnable.class));
+        verify(main.handler,times(2)).sendMessage(null);
     }
 
     @Test

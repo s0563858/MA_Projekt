@@ -8,7 +8,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import static org.junit.Assert.*;
 
-public class NetworkObjectTest {
+public class NetworkObjectPositionTest {
 
     @Test
     public void instantiate() {
@@ -25,7 +25,7 @@ public class NetworkObjectTest {
         no.currentPlayersPipe1Pos=2;
         no.currentPlayersID=33;
         no.currentPlayersPosY=12;
-        no.done=false;
+        no.setDone(false);
         no.pipe2PosX=10;
         no.pipe1PosX=20;
 
@@ -49,14 +49,14 @@ public class NetworkObjectTest {
         no.currentPlayersPipe1Pos=2;
         no.currentPlayersID=33;
         no.currentPlayersPosY=12;
-        no.done=false;
+        no.setDone(false);
         no.pipe2PosX=10;
         no.pipe1PosX=20;
         assertEquals(no.currentPlayersPipe2Pos,1,0.001f);
         assertEquals(no.currentPlayersPipe1Pos,2,0.001f);
         assertEquals(no.currentPlayersID,33,0.001f);
         assertEquals(no.currentPlayersPosY,12,0.001f);
-        assertEquals(no.done,false);
+        assertEquals(no.getDone(),false);
         assertEquals(no.pipe2PosX,10,0.001f);
         assertEquals(no.pipe1PosX,20,0.001f);
     }

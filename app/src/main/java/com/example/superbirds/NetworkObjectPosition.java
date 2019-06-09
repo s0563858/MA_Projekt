@@ -17,9 +17,20 @@ public class NetworkObjectPosition implements INetworkObject {
     public float currentPlayersPosY;
     public float currentPlayersPipe1Pos;
     public float currentPlayersPipe2Pos;
-    public boolean done;
+    private boolean done;
 
     private String domain="heartbleed.de";
+
+
+    @Override
+    public boolean getDone() {
+        return done;
+    }
+
+    @Override
+    public void setDone(boolean d) {
+        done=d;
+    }
 
     public HttpsURLConnection getConnection() throws IOException {
         URL addr = new URL("https://"+domain+"/app?getID=0&restart=0" +"&posY=" +this.currentPlayersPosY + "&id=" + this.currentPlayersID + "&pipe1="+this.currentPlayersPipe1Pos+ "&pipe2="+this.currentPlayersPipe2Pos);

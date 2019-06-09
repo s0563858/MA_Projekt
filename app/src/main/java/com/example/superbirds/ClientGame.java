@@ -46,12 +46,7 @@ public class ClientGame extends AsyncTask<INetworkObject, Integer, INetworkObjec
 
     @Override
     protected void onPostExecute(INetworkObject resp) {
-        if(netObj.getClass()==NetworkObjectPosition.class){
-            ((NetworkObjectPosition) netObj).done=true;
-        }
-        if(netObj.getClass()==NetworkObjectGetID.class){
-            ((NetworkObjectGetID) netObj).done=true;
-        }
+        netObj.setDone(true);
     }
 
     public  void communicateWithServer(NetworkObjectGetID n) throws IOException {
@@ -70,6 +65,7 @@ public class ClientGame extends AsyncTask<INetworkObject, Integer, INetworkObjec
 
 
         Log.i("network","[Client] Received ID[" + line + "] from Server");
+        if(line==null){((NetworkObjectGetID)netObj).id=-1;return;}
         if(line.contains("slots")){//restarting the server if the server is full
             INetworkObject netO = new NetworkObjectGetID(0,1);// -> will restart the server
             connection=netO.getConnection();

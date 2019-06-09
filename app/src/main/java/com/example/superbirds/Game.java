@@ -47,17 +47,12 @@ public class Game extends Thread {
         firstPacketFetched=false;
         gameActivated = true;
         lastTime = System.nanoTime();
-        //try {
-            //networkID=getIDfromServer();
+
         networkID=-2;
         netObj = new NetworkObjectGetID(1,0);
         c = new ClientGame();
         c.execute(netObj);
-         //   networkID=-1;
-        //} catch (IOException e) {
-        //networkID=-1;
-          //  e.printStackTrace();
-        //}
+
     }
 
 
@@ -68,13 +63,13 @@ public class Game extends Thread {
         lastTime = time;
         bird.setNewPosition(bird.getX(),bird.getY() + 0.02f*delta_time);
         drawGameobject(bird);
-        if((netObj!=null && ((NetworkObjectPosition)netObj).done)){ //|| (networkID==2 && netObj!=null && !netObj.done && firstPacketFetched) ){
+        if(netObj!=null && netObj.getDone()){ //|| (networkID==2 && netObj!=null && !netObj.done && firstPacketFetched) ){
             Log.i("network","- y: "+((NetworkObjectPosition)netObj).otherPlayersPosY);
             otherPlayer.setNewPosition(bird.getX(),((NetworkObjectPosition)netObj).otherPlayersPosY);
             drawGameobject(otherPlayer);
         }
 
-        if(networkID==-1 || networkID==1 || (networkID==2 && netObj!=null && !((NetworkObjectPosition)netObj).done && firstPacketFetched)){//wenn spieler der server ist oder es keinen freien platz gibt
+        if(networkID==-1 || networkID==1 || (networkID==2 && netObj!=null && !netObj.getDone() && firstPacketFetched)){//wenn spieler der server ist oder es keinen freien platz gibt
             for(GameObject obj : movingObjects) {
                 obj.setNewPosition(obj.getX() - 0.02f*delta_time, obj.getY() );
                 if(obj.getX() < -50){
@@ -84,7 +79,7 @@ public class Game extends Thread {
             }
 
         }
-        if(networkID==2 && netObj!=null && ((NetworkObjectPosition)netObj).done && ((NetworkObjectPosition)netObj).pipe1PosX!=((NetworkObjectPosition)netObj).pipe2PosX){//wenn der spiler die client-rolle hat
+        if(networkID==2 && netObj!=null && netObj.getDone() && ((NetworkObjectPosition)netObj).pipe1PosX!=((NetworkObjectPosition)netObj).pipe2PosX){//wenn der spiler die client-rolle hat
             firstPacketFetched=true;
             for(GameObject obj : movingObjects) {
                 if(obj.getName().equals("pipe1")){
@@ -106,10 +101,10 @@ public class Game extends Thread {
 
     private void network(){
         //--------------Network--------------
-        if(c==null || netObj == null || ((NetworkObjectPosition)netObj).done){
+        if(c==null || netObj == null || netObj.getDone()){
             Log.i("network","- New async network task");
             netObj = new NetworkObjectPosition();
-            ((NetworkObjectPosition)netObj).done=false;
+            netObj.setDone(false);
             ((NetworkObjectPosition)netObj).currentPlayersID=networkID;
             ((NetworkObjectPosition)netObj).currentPlayersPosY=bird.getY();
             ((NetworkObjectPosition)netObj).currentPlayersPipe1Pos = getGameobjectPositionX( "pipe1");
@@ -132,7 +127,7 @@ public class Game extends Thread {
 
         while(gameActivated) {
             if(netObj.getClass()==NetworkObjectGetID.class){//getting the id asynchronously
-                if(((NetworkObjectGetID)netObj).done){networkID=((NetworkObjectGetID)netObj).id; netObj=null; }
+                if(netObj.getDone()){networkID=((NetworkObjectGetID)netObj).id; netObj=null; }
                 else {continue;}
             }
             movingObjects();
@@ -239,7 +234,7 @@ public class Game extends Thread {
 
     }
 
-
+/*
     public  int getIDfromServer() throws IOException {
 
         if(domain == null || bird == null || movingObjects == null  || main == null || cd == null){return -1;}
@@ -280,5 +275,5 @@ public class Game extends Thread {
         }
 
         return Integer.valueOf(line);
-    }
+    }*/
 }
