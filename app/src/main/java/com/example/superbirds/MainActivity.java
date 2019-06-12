@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,9 +28,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-       // StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        // StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         //StrictMode.setThreadPolicy(policy);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
 
         GameObject bird;
         List<GameObject> pipes = new ArrayList<GameObject>();
@@ -48,17 +54,15 @@ public class MainActivity extends AppCompatActivity {
             lastScore.setText("Last score: "+memento.getGameState()[0]);
         }
 
+        bird = new GameObject(40,height/2,"bird", (ImageView) findViewById( R.id.imageView));
+        GameObject otherPlayer = new GameObject(40,height/2,"otherPlayer", (ImageView) findViewById( R.id.imageView8));
+        GameObject pipe1 = new GameObject(300,190,"pipe1",(ImageView) findViewById( R.id.imageView3));
+        GameObject pipe2 = new GameObject(300,-70,"pipe1", (ImageView) findViewById( R.id.imageView2));
+        GameObject pipe3 = new GameObject(500,160,"pipe2", (ImageView) findViewById( R.id.imageView5));
+        GameObject pipe4 = new GameObject(500,-90,"pipe2", (ImageView) findViewById( R.id.imageView4));
 
-
-        bird = new GameObject(0,0,"bird", (ImageView) findViewById( R.id.imageView));
-        GameObject otherPlayer = new GameObject(0,0,"otherPlayer", (ImageView) findViewById( R.id.imageView8));
-        GameObject pipe1 = new GameObject(150,190,"pipe1",(ImageView) findViewById( R.id.imageView3));
-        GameObject pipe2 = new GameObject(150,-70,"pipe1", (ImageView) findViewById( R.id.imageView2));
-        GameObject pipe3 = new GameObject(400,160,"pipe2", (ImageView) findViewById( R.id.imageView5));
-        GameObject pipe4 = new GameObject(400,-90,"pipe2", (ImageView) findViewById( R.id.imageView4));
-
-        GameObject scoreElement1 = new GameObject(150,100,"score1", (ImageView) findViewById( R.id.imageView6));
-        GameObject scoreElement2 = new GameObject(400,100,"score2", (ImageView) findViewById( R.id.imageView7));
+        GameObject scoreElement1 = new GameObject(150,height/2,"score1", (ImageView) findViewById( R.id.imageView6));
+        GameObject scoreElement2 = new GameObject(400,height/2,"score2", (ImageView) findViewById( R.id.imageView7));
 
         pipes.add(pipe1);
         pipes.add(pipe2);
