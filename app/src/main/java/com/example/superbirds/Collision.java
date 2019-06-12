@@ -7,13 +7,12 @@ public class Collision {
 
     String value;
 
-    String state;//entered oder in oder inactive
 
 
-    public Collision(String f, String s, String v, String st){
+
+    public Collision(String f, String s, String v){
         firstObject=f;
         secondObject=s;
         value=v;
-        state =st;
     }
 }

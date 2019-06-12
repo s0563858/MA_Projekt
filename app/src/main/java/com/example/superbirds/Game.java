@@ -28,6 +28,8 @@ public class Game extends Thread {
     public int score;
     public boolean firstPacketFetched;
 
+    long collisionLastTime;
+
 
 
     CollisionDetection cd;
@@ -139,21 +141,24 @@ public class Game extends Thread {
 
 
     public void detectCollisions(){
-        if(networkID==1 || (networkID==2 && firstPacketFetched)){
+
+        if((networkID==1 || (networkID==2 && firstPacketFetched)) && collisionLastTime + 1000000000l < System.nanoTime()){
+            collisionLastTime = System.nanoTime();
             List<Collision> collisions = cd.detectCollisions(movingObjects,bird);
 
             for (Collision c : collisions) {
-                if(c.value=="dead" && c.state=="entered"){
+                if(c.value=="dead" ){
                     Log.i("collision","-gameover");
                     gameActivated=false;
                     bird.setNewPosition(0,-1000);
                 }
-                if(c.value=="score" && c.state=="entered"){
+                if(c.value=="score" ){
                     Log.i("score","-score incremented");
                     incrementScore();
                 }
             }
         }
+
     }
 
 
@@ -175,13 +180,6 @@ public class Game extends Thread {
         if(main==null){return;}
         Message msg = main.handler.obtainMessage(1,score);
         main.handler.sendMessage(msg);
-
-       /* main.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                main.saveNewScore(score);
-            }
-        });*/
     }
 
 
@@ -191,12 +189,6 @@ public class Game extends Thread {
         Message msg = main.handler.obtainMessage(0,score);
         main.handler.sendMessage(msg);
 
-        /*main.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                main.setNewScore(score);
-            }
-        });*/
     }
 
 
@@ -223,57 +215,8 @@ public class Game extends Thread {
 
         Message msg = main.handler.obtainMessage(2,g);
         main.handler.sendMessage(msg);
-      //  main.runOnUiThread(new Runnable() {
-      //      @Override
-       //     public void run() {
-         //       ImageView image  = a.getImage();
-         //       image.setY(a.getY());
-          //      image.setX(a.getX());
-        //    }
-       // });
 
     }
 
-/*
-    public  int getIDfromServer() throws IOException {
 
-        if(domain == null || bird == null || movingObjects == null  || main == null || cd == null){return -1;}
-
-        HttpsURLConnection connection;
-        PrintWriter out;
-        BufferedReader in;
-        String line;
-        Log.i("network","[Client] Connecting to Server...");
-        URL addr = new URL("https://"+domain+"/app?getID=1&restart=0" );
-        System.out.println(addr);
-        connection = (HttpsURLConnection) addr.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-        connection.setUseCaches(false);
-        connection.setDoOutput(true);
-
-        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-        line = in.readLine();
-        in.close();
-
-
-        Log.i("network","[Client] Received ID[" + line + "] from Server");
-        if(line.contains("slots")){//restarting the server if the server is full
-            addr = new URL("https://"+domain+"/app?getID=0&restart=1" );
-            connection = (HttpsURLConnection) addr.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-            connection.setUseCaches(false);
-            connection.setDoOutput(true);
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-            in.close();
-            return getIDfromServer();
-        }
-
-        return Integer.valueOf(line);
-    }*/
 }
