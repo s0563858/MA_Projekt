@@ -63,8 +63,9 @@ public class Game extends Thread {
                 if(obj.getX() < -50){
                     if(obj.getName().contains("score")) {
                         Random rnd = new Random();;
-                        float objY = rnd.nextFloat() * (obj.getY() - obj.getY()-60) + obj.getY()-60;
+                        float objY = rnd.nextFloat() * (MainActivity.height/2 - MainActivity.height/2-60) + MainActivity.height/2-60;
                         obj.setNewPosition(400, objY );
+                        obj.getImage().setAlpha(1.0f);
                     } else {
                         obj.setNewPosition(400, obj.getY() );
                     }

@@ -1,6 +1,7 @@
 package com.example.superbirds;
 
 import android.graphics.Rect;
+import android.view.View;
 import android.widget.ImageView;
 
 
@@ -43,6 +44,10 @@ public class GameObject {
 
     public ImageView getImage() {
         return image;
+    }
+
+    public void setImage() {
+        this.image.setAlpha(0.0f);
     }
 
     public void setNewPosition(float newx, float newy) {

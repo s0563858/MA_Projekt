@@ -29,6 +29,7 @@ public class CollisionDetection {
                 }
                 if(obj.getName().contains("score")){
                     Collision c = new Collision(bird.getName(), obj.getName(),"score");
+                    obj.setImage();
                     cl.add(c);
                 }
             }
