@@ -9,14 +9,11 @@ import javax.net.ssl.HttpsURLConnection;
 import static org.junit.Assert.*;
 
 public class NetworkObjectPositionTest {
-
     @Test
     public void instantiate() {
         NetworkObjectPosition no = new NetworkObjectPosition();
         assertNotNull(no);
     }
-
-
 
     @Test
     public void getConnectionTest() throws IOException {
@@ -60,5 +57,4 @@ public class NetworkObjectPositionTest {
         assertEquals(no.pipe2PosX,10,0.001f);
         assertEquals(no.pipe1PosX,20,0.001f);
     }
-
 }

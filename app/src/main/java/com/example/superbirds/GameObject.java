@@ -5,12 +5,8 @@ import android.widget.ImageView;
 
 
 public class GameObject {
-
-
     private float x;
     private float y;
-
-
 
     private String name;
 
@@ -23,7 +19,6 @@ public class GameObject {
         y = startY;
         name = n;
         image=iv;
-
     }
 
     public String getName() {
@@ -50,7 +45,7 @@ public class GameObject {
         return image;
     }
 
-    public void setNewPosition(float newx, float newy){
+    public void setNewPosition(float newx, float newy) {
         x=newx;
         y=newy;
     }

@@ -1,9 +1,6 @@
 package com.example.superbirds;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -20,7 +17,6 @@ public class NetworkObjectPosition implements INetworkObject {
     private boolean done;
 
     private String domain="heartbleed.de";
-
 
     @Override
     public boolean getDone() {

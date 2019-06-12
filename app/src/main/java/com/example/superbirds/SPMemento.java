@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
  * Speicherung erfolgt durch SharedPreferences
  */
 public class SPMemento implements Memento {
-
     private SharedPreferences sharedPreferences;
 
     /**

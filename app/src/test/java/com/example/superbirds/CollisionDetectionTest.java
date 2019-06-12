@@ -1,7 +1,5 @@
 package com.example.superbirds;
 
-import android.widget.ImageView;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,7 +8,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class CollisionDetectionTest {
-
     @Test
     public void insantiate() {
         CollisionDetection cd = new CollisionDetection();

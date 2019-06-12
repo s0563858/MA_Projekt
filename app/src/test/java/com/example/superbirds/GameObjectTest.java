@@ -1,16 +1,12 @@
 package com.example.superbirds;
 
-import android.widget.ImageView;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class GameObjectTest {
-
     @Test
     public void instantiate() {
-        //bird = new GameObject(0,0,"bird", (ImageView) findViewById( R.id.imageView));
         GameObject g = new GameObject(0,0,"bird",null);
         assertNotNull(g);
     }

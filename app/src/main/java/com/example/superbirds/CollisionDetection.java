@@ -8,25 +8,19 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class CollisionDetection {
-
     List<Collision> collisionList;
-
 
     public CollisionDetection(){
         collisionList = new ArrayList<Collision>();
     }
 
-
     public List<Collision> detectCollisions(List<GameObject> movingObjects, GameObject bird){
-
         if(movingObjects==null || bird == null){return null;}
 
         List<Collision> cl = new ArrayList<Collision>();
 
-
         for(GameObject obj : movingObjects) {
             if(Rect.intersects(bird.GetRect(), obj.GetRect())){
-
                 if( obj.getName().contains("pipe")){
                     Log.i("collision","-collision");
                     Log.i("collision",obj.getName());
@@ -38,7 +32,6 @@ public class CollisionDetection {
                     cl.add(c);
                 }
             }
-
         }
 
         if(collisionList != null || collisionList.size() > 0 ){//removing inactive objects
@@ -55,6 +48,7 @@ public class CollisionDetection {
         }
 
         ListIterator<Collision> iter = cl.listIterator();
+
         while(iter.hasNext()){
             Collision c = iter.next();
             if(c.value.equals("canceled")){
@@ -63,21 +57,15 @@ public class CollisionDetection {
                 collisionList.add(c);
             }
         }
+
         ListIterator<Collision> it = collisionList.listIterator();
+
         while(it.hasNext()){
             Collision c = it.next();
             if(c.value.equals("canceled")){
                 it.remove();
             }
         }
-
         return cl;
     }
-
-
-
-
-
-
-
 }

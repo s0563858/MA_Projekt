@@ -1,9 +1,6 @@
 package com.example.superbirds;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -14,9 +11,9 @@ public class NetworkObjectGetID implements INetworkObject {
     private int getID;
     private int restart;
 
-    public NetworkObjectGetID(int getIDt, int restartt){
+    public NetworkObjectGetID(int getIDt, int restart) {
         this.getID=getIDt;
-        this.restart=restartt;
+        this.restart=restart;
     }
 
     @Override

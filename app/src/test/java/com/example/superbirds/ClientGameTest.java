@@ -14,13 +14,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ClientGameTest {
-
     @Test
     public void instantiate() {
         ClientGame c=new ClientGame();
         assertNotNull(c);
     }
-
 
     @Test
     public void communicateWithServer() throws IOException {
@@ -50,7 +48,6 @@ public class ClientGameTest {
         assertTrue(((NetworkObjectGetID)c.netObj).id==1);
     }
 
-
     @Test
     public void getIDfromServerEmptyAnswerTest() throws IOException{
         ClientGame c=new ClientGame();
@@ -64,7 +61,6 @@ public class ClientGameTest {
         c.communicateWithServer(no);
         assertTrue(((NetworkObjectGetID)c.netObj).id==-1);
     }
-
 
     @Test
     public void communicateWithServerEmptyAnswer() throws IOException {
@@ -116,5 +112,4 @@ public class ClientGameTest {
         c.netObj=null;
         assertTrue(c.doInBackground(null)==null);
     }
-
 }

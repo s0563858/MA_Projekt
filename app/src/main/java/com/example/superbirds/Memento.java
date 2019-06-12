@@ -26,7 +26,6 @@ public interface Memento {
      */
     String POS_Y = "posYKey";
 
-
     /**
      * Lädt Spielstand
      * @return Array mit Speicherungen

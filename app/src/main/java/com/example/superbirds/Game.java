@@ -1,23 +1,12 @@
 package com.example.superbirds;
 
 import android.os.Message;
-import android.util.DisplayMetrics;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.URL;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class Game extends Thread {
-
-
     GameObject bird;
     List<GameObject> movingObjects;
     int networkID;
@@ -38,8 +27,7 @@ public class Game extends Thread {
     ClientGame c;
     long lastTime;
 
-    public Game(GameObject b,GameObject o , List<GameObject> mo, MainActivity m){
-
+    public Game(GameObject b,GameObject o , List<GameObject> mo, MainActivity m) {
         score=-1;
         bird=b;
         movingObjects=mo;
@@ -55,12 +43,9 @@ public class Game extends Thread {
         netObj = new NetworkObjectGetID(1,0);
         c = new ClientGame();
         c.execute(netObj);
-
     }
 
-
-
-    public void movingObjects(){
+    public void movingObjects() {
         long time = System.nanoTime();
         float delta_time = (float) ((time - lastTime) / 1000000);
         lastTime = time;
@@ -88,6 +73,7 @@ public class Game extends Thread {
             }
 
         }
+
         if(networkID==2 && netObj!=null && netObj.getDone() && ((NetworkObjectPosition)netObj).pipe1PosX!=((NetworkObjectPosition)netObj).pipe2PosX){//wenn der spiler die client-rolle hat
             firstPacketFetched=true;
             for(GameObject obj : movingObjects) {
@@ -107,9 +93,7 @@ public class Game extends Thread {
         }
     }
 
-
-    private void network(){
-        //--------------Network--------------
+    private void network() {
         if(c==null || netObj == null || netObj.getDone()){
             Log.i("network","- New async network task");
             netObj = new NetworkObjectPosition();
@@ -121,12 +105,9 @@ public class Game extends Thread {
             c=new ClientGame();
             c.execute(netObj);
         }
-        //--------------Network--------------
     }
 
-
-
-    public void run(){
+    public void run() {
         //c.run();
         if(bird == null || movingObjects == null  || main == null || cd == null){
             gameActivated=false;
@@ -146,9 +127,7 @@ public class Game extends Thread {
         saveScore();
     }
 
-
-    public void detectCollisions(){
-
+    public void detectCollisions() {
         if((networkID==1 || (networkID==2 && firstPacketFetched)) && collisionLastTime + 1000000000l < System.nanoTime()){
             collisionLastTime = System.nanoTime();
             List<Collision> collisions = cd.detectCollisions(movingObjects,bird);
@@ -168,8 +147,7 @@ public class Game extends Thread {
 
     }
 
-
-    public float getGameobjectPositionX(String gameObjectName){
+    public float getGameobjectPositionX(String gameObjectName) {
         float pos = -1000;
 
         for (GameObject g:
@@ -182,29 +160,22 @@ public class Game extends Thread {
         return pos;
     }
 
-
-    public  void saveScore() {
+    public void saveScore() {
         if(main==null){return;}
         Message msg = main.handler.obtainMessage(1,score);
         main.handler.sendMessage(msg);
     }
 
-
-    public  void incrementScore(){
+    public void incrementScore() {
         score++;
         if(main==null){return;}
         Message msg = main.handler.obtainMessage(0,score);
         main.handler.sendMessage(msg);
-
     }
 
-
-
-
-
-    public void FlyButtonClicked(){
+    public void FlyButtonClicked() {
         if(bird==null){return;}
-      //  Log.i("ImageButton","clicked");
+        // Log.i("ImageButton","clicked");
         System.out.println(gameActivated);
         if(gameActivated){
             bird.setNewPosition(bird.getX(),bird.getY() - 20);
@@ -212,18 +183,13 @@ public class Game extends Thread {
         }
     }
 
-
-
-    private void drawGameobject(GameObject g){
-         final GameObject a = g;
+    private void drawGameobject(GameObject g) {
+        final GameObject a = g;
 
         if(g== null || g.getImage() == null){ return;}
         if(main==null){return;}
 
         Message msg = main.handler.obtainMessage(2,g);
         main.handler.sendMessage(msg);
-
     }
-
-
 }

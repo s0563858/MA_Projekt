@@ -1,30 +1,20 @@
 package com.example.superbirds;
 
 import android.os.Handler;
-import android.os.Message;
-import android.widget.ImageView;
 
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
-
-import java.io.IOException;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class GameTest {
-
     @Test
     public void instantiate() {
         Game g = new Game(null,null,null,null);
         assertNotNull(g);
     }
-
-
 
     @Test
     public void saveScoreTest() {
