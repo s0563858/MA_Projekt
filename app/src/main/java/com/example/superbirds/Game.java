@@ -1,6 +1,7 @@
 package com.example.superbirds;
 
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -9,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -29,8 +32,6 @@ public class Game extends Thread {
     public boolean firstPacketFetched;
 
     long collisionLastTime;
-
-
 
     CollisionDetection cd;
 
@@ -75,7 +76,13 @@ public class Game extends Thread {
             for(GameObject obj : movingObjects) {
                 obj.setNewPosition(obj.getX() - 0.02f*delta_time, obj.getY() );
                 if(obj.getX() < -50){
-                    obj.setNewPosition(400, obj.getY() );
+                    if(obj.getName().contains("score")) {
+                        Random rnd = new Random();;
+                        float objY = rnd.nextFloat() * (obj.getY() - obj.getY()-60) + obj.getY()-60;
+                        obj.setNewPosition(400, objY );
+                    } else {
+                        obj.setNewPosition(400, obj.getY() );
+                    }
                 }
                 drawGameobject(obj);
             }
