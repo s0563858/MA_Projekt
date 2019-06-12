@@ -1,6 +1,7 @@
 package com.example.superbirds;
 
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
@@ -102,5 +105,10 @@ public class MainActivity extends AppCompatActivity {
     public void setNewScore(int scr) {
         if(memento==null||score==null){return;}
         score.setText("Score: "+String.valueOf(scr));
+    }
+
+
+    public Rect getRectForTest(){
+        return new Rect(1,2,3,4);
     }
 }
