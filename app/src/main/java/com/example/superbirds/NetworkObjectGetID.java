@@ -12,6 +12,7 @@ public class NetworkObjectGetID implements INetworkObject {
     private int restart;
 
     public NetworkObjectGetID(int getIDt, int restart) {
+        if((getIDt != 0 && getIDt != 1) || (restart!=1 && restart!=0)){ return; }
         this.getID=getIDt;
         this.restart=restart;
     }

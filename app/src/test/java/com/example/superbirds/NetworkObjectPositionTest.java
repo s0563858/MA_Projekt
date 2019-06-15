@@ -16,6 +16,19 @@ public class NetworkObjectPositionTest {
     }
 
     @Test
+    public void getDoneTest() {
+        NetworkObjectPosition no = new NetworkObjectPosition();
+        assertFalse(no.getDone());
+    }
+
+    @Test
+    public void setDoneTest() {
+        NetworkObjectPosition no = new NetworkObjectPosition();
+        no.setDone(true);
+        assertTrue(no.getDone());
+    }
+
+    @Test
     public void getConnectionTest() throws IOException {
         NetworkObjectPosition no = new NetworkObjectPosition();
         no.currentPlayersPipe2Pos=1;
