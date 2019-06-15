@@ -97,18 +97,18 @@ public class MainActivity extends AppCompatActivity {
         currentGame.start();
     }
 
-    public void saveNewScore(int scr) {
-        if(memento==null||score==null){return;}
-        memento.saveGameState(scr, 0,0);
+    public boolean saveNewScore(int scr) {
+        if(memento==null || currentGame == null || currentGame.bird==null){return false;}
+        memento.saveGameState(scr, (int)currentGame.bird.getX(),(int)currentGame.bird.getY());
+        return true;
     }
 
-    public void setNewScore(int scr) {
-        if(memento==null||score==null){return;}
+    public boolean setNewScore(int scr) {
+        if(score==null){return false;}
         score.setText("Score: "+String.valueOf(scr));
+        return true;
     }
 
 
-    public Rect getRectForTest(){
-        return new Rect(1,2,3,4);
-    }
+
 }

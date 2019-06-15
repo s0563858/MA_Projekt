@@ -149,6 +149,7 @@ public class Game extends Thread {
     }
 
     public float getGameobjectPositionX(String gameObjectName) {
+        if(movingObjects==null || gameObjectName==null || movingObjects.size()==0){return -1000;}
         float pos = -1000;
 
         for (GameObject g:
@@ -161,36 +162,37 @@ public class Game extends Thread {
         return pos;
     }
 
-    public void saveScore() {
-        if(main==null){return;}
+    public boolean saveScore() {
+        if(main==null){return false;}
         Message msg = main.handler.obtainMessage(1,score);
         main.handler.sendMessage(msg);
+        return true;
     }
 
-    public void incrementScore() {
+    public boolean incrementScore() {
         score++;
-        if(main==null){return;}
+        if(main==null){return false;}
         Message msg = main.handler.obtainMessage(0,score);
         main.handler.sendMessage(msg);
+        return true;
     }
 
-    public void FlyButtonClicked() {
-        if(bird==null){return;}
+    public boolean FlyButtonClicked() {
+        if(bird==null || gameActivated==false){return false;}
         // Log.i("ImageButton","clicked");
-        System.out.println(gameActivated);
-        if(gameActivated){
-            bird.setNewPosition(bird.getX(),bird.getY() - 20);
-            drawGameobject(bird);
-        }
+        bird.setNewPosition(bird.getX(),bird.getY() - 20);
+        drawGameobject(bird);
+        return true;
+
     }
 
-    private void drawGameobject(GameObject g) {
+    public boolean drawGameobject(GameObject g) {
         final GameObject a = g;
 
-        if(g== null || g.getImage() == null){ return;}
-        if(main==null){return;}
+        if(g== null || g.getImage() == null || main==null){ return false;}
 
         Message msg = main.handler.obtainMessage(2,g);
         main.handler.sendMessage(msg);
+        return true;
     }
 }

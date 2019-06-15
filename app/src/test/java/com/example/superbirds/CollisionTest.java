@@ -18,4 +18,13 @@ public class CollisionTest {
         assertEquals(c.secondObject, "name2");
         assertEquals(c.value, "dead");
     }
+
+    @Test
+    public void valuesNull() {
+        Collision c =  new Collision(null, null,null);
+        assertNotNull(c);
+        assertEquals(c.firstObject, null);
+        assertEquals(c.secondObject, null);
+        assertEquals(c.value, null);
+    }
 }

@@ -15,15 +15,13 @@ public class CollisionDetection {
     }
 
     public List<Collision> detectCollisions(List<GameObject> movingObjects, GameObject bird){
-        if(movingObjects==null || bird == null){return null;}
+        if(movingObjects==null || bird == null || movingObjects.size()==0){return null;}
 
         List<Collision> cl = new ArrayList<Collision>();
         for(GameObject obj : movingObjects) {
 
             if(Rect.intersects(bird.GetRect(), obj.GetRect())){
-                System.out.println("adad111");
                 if( obj.getName().contains("pipe")){
-                    System.out.println("adad111");
                     Log.i("collision","-collision");
                     Log.i("collision",obj.getName());
                     Collision c = new Collision(bird.getName(), obj.getName(),"dead");
