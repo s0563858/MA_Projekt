@@ -20,13 +20,13 @@ public interface Memento {
      * Lädt Spielstand
      * @return Array mit Speicherungen
      */
-    String getGameState();
+    String getGameState() throws Exception;
 
     /**
      * Speichert den Spielstand
      * @param highScore High Score
      */
-    void saveGameState(int highScore);
+    void saveGameState(int highScore) throws Exception;
 
     /**
      * Gibt die SharedPreferences Instanz zurück

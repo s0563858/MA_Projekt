@@ -27,14 +27,19 @@ public class SPMemento implements Memento {
     }
 
     @Override
-    public void saveGameState(int highScore) {
+    public void saveGameState(int highScore) throws Exception {
+        if(highScore <0) {throw new Exception("Negative values not allowed");}
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(HIGHSCORE, highScore);
         editor.commit();
     }
 
     @Override
-    public String getGameState() {
+    public String getGameState() throws Exception {
+        if(sharedPreferences.getInt(HIGHSCORE, -1) == -1) {
+            throw new Exception("Nothing was saved yet.");
+        }
+
         String hS = String.valueOf(sharedPreferences.getInt(HIGHSCORE, -1));
 
         return hS;

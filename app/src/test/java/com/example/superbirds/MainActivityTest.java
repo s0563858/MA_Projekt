@@ -20,7 +20,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void saveNewScoreTest() {
+    public void saveNewScoreTest() throws Exception {
         MainActivity m = new MainActivity();
         Memento mem = mock(Memento.class);
 
@@ -35,7 +35,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void saveNewScoreMementoNullTest() {
+    public void saveNewScoreMementoNullTest() throws Exception {
         MainActivity m = new MainActivity();
         Memento mem = mock(Memento.class);
 
@@ -50,7 +50,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void saveNewScoreGameNullTest() {
+    public void saveNewScoreGameNullTest() throws Exception {
         MainActivity m = new MainActivity();
         Memento mem = mock(Memento.class);
 
@@ -64,9 +64,8 @@ public class MainActivityTest {
         verify(mem, times(0)).saveGameState(anyInt());
     }
 
-
     @Test
-    public void saveNewScoreBirdNullTest() {
+    public void saveNewScoreBirdNullTest() throws Exception {
         MainActivity m = new MainActivity();
         Memento mem = mock(Memento.class);
 
@@ -80,10 +79,8 @@ public class MainActivityTest {
         verify(mem, times(0)).saveGameState(anyInt());
     }
 
-
-
     @Test
-    public void saveNewScoreValuesTest() {
+    public void saveNewScoreValuesTest() throws Exception {
         MainActivity m = new MainActivity();
         Memento mem = mock(Memento.class);
 
@@ -97,9 +94,6 @@ public class MainActivityTest {
         verify(mem, times(1)).saveGameState(1);
     }
 
-
-
-
     @Test
     public void setNewScoreTest() {
         MainActivity m = new MainActivity();
@@ -109,7 +103,6 @@ public class MainActivityTest {
         m.setNewScore(0);
         verify(s, times(1)).setText(anyString());
     }
-
 
     @Test
     public void setNewScoreValueTest() {
@@ -121,7 +114,6 @@ public class MainActivityTest {
         verify(s, times(1)).setText("Score: 22");
     }
 
-
     @Test
     public void setNewScoreScoreNullTest() {
         MainActivity m = new MainActivity();
@@ -130,6 +122,4 @@ public class MainActivityTest {
 
         assertFalse(m.setNewScore(22));
     }
-
-
 }

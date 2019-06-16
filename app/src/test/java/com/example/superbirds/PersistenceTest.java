@@ -35,21 +35,21 @@ public class PersistenceTest {
     }
 
     @Test
-    public void saveGameStateTest() {
+    public void saveGameStateTest() throws Exception {
         memento.saveGameState(42);
 
         Assert.assertEquals(42, memento.getSharedPrefs().getInt(memento.HIGHSCORE, -1));
     }
 
     @Test
-    public void getGameStateTest() {
+    public void getGameStateTest() throws Exception {
         memento.saveGameState(42);
 
         Assert.assertEquals("42", memento.getGameState());
     }
 
     @Test
-    public void getDefaultValueWhenNothingWasSavedToKey() {
+    public void getDefaultValueWhenNothingWasSavedToKeyTest() {
         int test = memento.getSharedPrefs().getInt("HIGHSCORE", -1);
 
         Assert.assertTrue(test == -1);
@@ -60,5 +60,49 @@ public class PersistenceTest {
         int test = memento.getSharedPrefs().getInt("WHUT", -1);
 
         Assert.assertTrue(test == -1);
+    }
+
+    ////////////////////////
+    //     EDGE CASES     //
+    //   AND EXCEPTIONS   //
+    ////////////////////////
+
+    @Test
+    public void saveGameStateWithIntMaxTest() throws Exception {
+        memento.saveGameState(Integer.MAX_VALUE);
+
+        Assert.assertEquals(String.valueOf(Integer.MAX_VALUE), memento.getGameState());
+    }
+
+    @Test
+    public void saveGameStateWithLessThanIntMinShouldNOTThrowExceptionTest() throws Exception {
+        memento.saveGameState(Integer.MIN_VALUE-1);
+
+        Assert.assertEquals(String.valueOf(Integer.MAX_VALUE), memento.getGameState());
+    }
+
+    @Test(expected = Exception.class)
+    public void getGameStateWhenNothingWasSavedThrowsExceptionTest() throws Exception {
+        memento.getGameState();
+    }
+
+    @Test(expected = Exception.class)
+    public void saveGameStateWithDefValueShouldThrowExceptionTest() throws Exception {
+        memento.saveGameState(-1);
+    }
+
+    @Test(expected = Exception.class)
+    public void saveGameStateWithNegValueShouldThrowExceptionTest() throws Exception {
+        memento.saveGameState(-31);
+    }
+
+    @Test(expected = Exception.class)
+    public void saveGameStateWithIntMinShouldThrowException() throws Exception {
+        memento.saveGameState(Integer.MIN_VALUE);
+    }
+
+    @Test(expected = Exception.class)
+    public void saveGameStateWitGreaterThanIntMaxShouldThrowExceptionTest() throws Exception {
+        memento.saveGameState(Integer.MAX_VALUE+1);
     }
 }

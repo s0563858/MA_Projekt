@@ -45,8 +45,13 @@ public class MainActivity extends AppCompatActivity {
         memento = new SPMemento(getApplicationContext());
         SharedPreferences sharedPreferences = memento.getSharedPrefs();
 
-        if(sharedPreferences.contains(memento.HIGHSCORE)) {
-            lastScore.setText("High score: "+memento.getGameState());
+        try {
+            if(sharedPreferences.contains(memento.HIGHSCORE)) {
+                lastScore.setText("High score: "+memento.getGameState());
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
 
         bird = new GameObject(40,this.height/2,"bird", (ImageView) findViewById( R.id.imageView));
@@ -73,8 +78,13 @@ public class MainActivity extends AppCompatActivity {
                     setNewScore((int)msg.obj);
                 }
                 if(msg.what==1){// 1 -> save the score
-                    if((int)msg.obj>Integer.valueOf(memento.getGameState())) {
-                        saveNewScore((int)msg.obj);
+                    try {
+                        if((int)msg.obj>Integer.valueOf(memento.getGameState())) {
+                            saveNewScore((int)msg.obj);
+                        }
+                    }
+                    catch(Exception e) {
+                        System.out.println(e.getMessage());
                     }
                 }
                 if(msg.what==2){// 2 -> draw the object
@@ -101,7 +111,12 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean saveNewScore(int scr) {
         if(memento==null || currentGame == null || currentGame.bird==null){return false;}
-        memento.saveGameState(scr);
+        try {
+            memento.saveGameState(scr);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return true;
     }
 
