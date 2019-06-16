@@ -27,21 +27,17 @@ public class SPMemento implements Memento {
     }
 
     @Override
-    public void saveGameState(int highScore, int xPosition, int yPosition) {
+    public void saveGameState(int highScore) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(HIGHSCORE, highScore);
-        editor.putInt(POS_X, xPosition);
-        editor.putInt(POS_Y, yPosition);
         editor.commit();
     }
 
     @Override
-    public String[] getGameState() {
+    public String getGameState() {
         String hS = String.valueOf(sharedPreferences.getInt(HIGHSCORE, -1));
-        String pX = String.valueOf(sharedPreferences.getInt(POS_X, -1));
-        String pY = String.valueOf(sharedPreferences.getInt(POS_Y, -1));
 
-        return new String[] {hS, pX, pY};
+        return hS;
     }
 
     @Override

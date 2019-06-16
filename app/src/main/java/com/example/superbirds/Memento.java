@@ -17,28 +17,16 @@ public interface Memento {
     String HIGHSCORE = "scoreKey";
 
     /**
-     * Key für die letzte x Position
-     */
-    String POS_X = "posXKey";
-
-    /**
-     * Key für die letzte y Position
-     */
-    String POS_Y = "posYKey";
-
-    /**
      * Lädt Spielstand
      * @return Array mit Speicherungen
      */
-    String[] getGameState();
+    String getGameState();
 
     /**
      * Speichert den Spielstand
      * @param highScore High Score
-     * @param xPosition Letzte x Position
-     * @param yPosition Letzte y Position
      */
-    void saveGameState(int highScore, int xPosition, int yPosition);
+    void saveGameState(int highScore);
 
     /**
      * Gibt die SharedPreferences Instanz zurück
