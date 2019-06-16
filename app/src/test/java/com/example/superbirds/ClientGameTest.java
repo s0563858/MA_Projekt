@@ -110,6 +110,6 @@ public class ClientGameTest {
         NetworkObjectPosition no = mock(NetworkObjectPosition.class);
         HttpURLConnection h = mock(HttpURLConnection.class);
         c.netObj=null;
-        assertTrue(c.doInBackground(null)==null);
+        assertTrue(c.doInBackground((INetworkObject[]) null)==null);
     }
 }

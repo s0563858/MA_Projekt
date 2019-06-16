@@ -31,7 +31,7 @@ public class MainActivityTest {
         m.currentGame=g;
         m.memento=mem;
         m.saveNewScore(0);
-        verify(mem, times(1)).saveGameState(anyInt(),anyInt(),anyInt());
+        verify(mem, times(1)).saveGameState(anyInt());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class MainActivityTest {
         m.currentGame=g;
         m.memento=null;
         m.saveNewScore(0);
-        verify(mem, times(0)).saveGameState(anyInt(),anyInt(),anyInt());
+        verify(mem, times(0)).saveGameState(anyInt());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class MainActivityTest {
         m.currentGame=null;
         m.memento=mem;
         m.saveNewScore(0);
-        verify(mem, times(0)).saveGameState(anyInt(),anyInt(),anyInt());
+        verify(mem, times(0)).saveGameState(anyInt());
     }
 
 
@@ -77,7 +77,7 @@ public class MainActivityTest {
         m.currentGame=g;
         m.memento=mem;
         m.saveNewScore(0);
-        verify(mem, times(0)).saveGameState(anyInt(),anyInt(),anyInt());
+        verify(mem, times(0)).saveGameState(anyInt());
     }
 
 
@@ -94,7 +94,7 @@ public class MainActivityTest {
         m.currentGame=g;
         m.memento=mem;
         m.saveNewScore(1);
-        verify(mem, times(1)).saveGameState(1,10,20);
+        verify(mem, times(1)).saveGameState(1);
     }
 
 

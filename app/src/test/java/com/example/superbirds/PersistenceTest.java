@@ -36,33 +36,29 @@ public class PersistenceTest {
 
     @Test
     public void saveGameStateTest() {
-        memento.saveGameState(40,41,42);
+        memento.saveGameState(42);
 
-        Assert.assertEquals(40, memento.getSharedPrefs().getInt(memento.HIGHSCORE, -1));
-        Assert.assertEquals(41, memento.getSharedPrefs().getInt(memento.POS_X, -1));
-        Assert.assertEquals(42, memento.getSharedPrefs().getInt(memento.POS_Y, -1));
+        Assert.assertEquals(42, memento.getSharedPrefs().getInt(memento.HIGHSCORE, -1));
     }
 
     @Test
     public void getGameStateTest() {
-        memento.saveGameState(40,41,42);
+        memento.saveGameState(42);
 
-        Assert.assertEquals("40", memento.getGameState()[0]);
-        Assert.assertEquals("41", memento.getGameState()[1]);
-        Assert.assertEquals("42", memento.getGameState()[2]);
+        Assert.assertEquals("42", memento.getGameState());
     }
 
     @Test
-    public void getDefaultValueWhenUnknownKeyIsUsedTest() {
-        memento.saveGameState(40,41,42);
-        int test = memento.getSharedPrefs().getInt("TEST", -1);
+    public void getDefaultValueWhenNothingWasSavedToKey() {
+        int test = memento.getSharedPrefs().getInt("HIGHSCORE", -1);
 
         Assert.assertTrue(test == -1);
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void getGameStateOutOfBoundsTest() {
-        memento.saveGameState(40,41,42);
-        String test = memento.getGameState()[4];
+    @Test
+    public void getDefaultValueWhenUnknownKeyIsUsedTest() {
+        int test = memento.getSharedPrefs().getInt("WHUT", -1);
+
+        Assert.assertTrue(test == -1);
     }
 }

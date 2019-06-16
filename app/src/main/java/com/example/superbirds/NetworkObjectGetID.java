@@ -27,7 +27,7 @@ public class NetworkObjectGetID implements INetworkObject {
         done=d;
     }
 
-    private String domain="heartbleed.de";
+    public String domain="heartbleed.de";
 
     public HttpsURLConnection getConnection() throws IOException {
         if((restart!=0&&restart!=1) || (getID!=0&&getID!=1)){return null;}
