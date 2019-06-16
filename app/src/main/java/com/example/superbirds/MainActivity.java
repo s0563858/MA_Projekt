@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
@@ -55,14 +53,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         bird = new GameObject(40,this.height/2,"bird", (ImageView) findViewById( R.id.imageView));
-        GameObject otherPlayer = new GameObject(40,this.height/2,"otherPlayer", (ImageView) findViewById( R.id.imageView8));
+         GameObject otherPlayer = new GameObject(40,this.height/2,"otherPlayer", (ImageView) findViewById( R.id.imageView8));
         GameObject pipe1 = new GameObject(300,210,"pipe1",(ImageView) findViewById( R.id.imageView3));
         GameObject pipe2 = new GameObject(300,-30,"pipe1", (ImageView) findViewById( R.id.imageView2));
         GameObject pipe3 = new GameObject(500,180,"pipe2", (ImageView) findViewById( R.id.imageView5));
-        GameObject pipe4 = new GameObject(500,-80,"pipe2", (ImageView) findViewById( R.id.imageView4));
+            GameObject pipe4 = new GameObject(500,-80,"pipe2", (ImageView) findViewById( R.id.imageView4));
 
         GameObject scoreElement1 = new GameObject(150,this.height/2,"score1", (ImageView) findViewById( R.id.imageView6));
         GameObject scoreElement2 = new GameObject(400,this.height/2,"score2", (ImageView) findViewById( R.id.imageView7));
+
 
         pipes.add(pipe1);
         pipes.add(pipe2);
@@ -125,7 +124,4 @@ public class MainActivity extends AppCompatActivity {
         score.setText("Score: "+String.valueOf(scr));
         return true;
     }
-
-
-
 }
